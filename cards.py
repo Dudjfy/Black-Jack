@@ -62,7 +62,7 @@ class EmptyDeck:
             card_str += str(card) + ("\n" if (i + 1) % self.print_columns == 0 else " ")
         return card_str
 
-    # MAY FAIL
+    # MAY FAIL RETURN
     def draw_card(self):
         if len(self.cards) > 0:
             card = self.cards[0]

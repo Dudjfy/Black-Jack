@@ -1,11 +1,5 @@
-from cards import ClassicDeck
-from player import Player
+from blackJackGame import BlackJackGame
 
-p = Player(ClassicDeck(print_columns=4, decks=1), 1000)
+bj = BlackJackGame(1000, show_total_values=True)
 
-p.deck.shuffle()
-p.draw_cards()
-
-# p.hand.cards[0].flip_face()
-
-print(p.deck, p.hand, p.money, sep="\n\n")
+bj.game_loop()
