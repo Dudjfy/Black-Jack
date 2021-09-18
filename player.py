@@ -1,15 +1,15 @@
-from cards import Deck
+from cards import ClassicDeck, EmptyDeck
 
 
 class Player:
-    def __init__(self, deck: Deck, money: int):
+    def __init__(self, deck: ClassicDeck, money: int):
         self.deck = deck
-        self.hand = []
+        self.hand = EmptyDeck()
         self.money = money
 
-    def draw_card(self):
-        self.hand.append(self.deck.cards[0])
-        self.deck.cards.pop(0)
+    def draw_cards(self, draw_amount: int = 1):
+        for _ in range(draw_amount):
+            self.hand.add_card(self.deck.draw_card())
 
     def print_hand(self):
         pass
