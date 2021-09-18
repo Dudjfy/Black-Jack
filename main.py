@@ -1,8 +1,7 @@
 from cards import Deck
 from cards import Card
+from player import Player
 
-d = Deck()
+p = Player(Deck(), 1000)
 
-d.shuffle()
-
-print(d)
+print(p.deck, p.hand, p.money)

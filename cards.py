@@ -2,30 +2,43 @@ import random
 
 
 class Deck:
-    def __init__(self):
+    suits = ["♣", "♦", "♥", "♠"]
+    symbols_and_values = {
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "7": 7,
+        "8": 8,
+        "9": 9,
+        "10": 10,
+        "J": 10,
+        "Q": 10,
+        "K": 10,
+        "A": 11
+    }
+
+    def __init__(self, print_columns: int = 4):
+        self.print_columns = print_columns
         self.cards_in_deck = 52
-        self.suits = ["♣", "♦", "♥", "♠"]
-        self.symbols_and_values = {
-          "2": 2, 
-          "3": 3, 
-          "4": 4, 
-          "5": 5, 
-          "6": 6, 
-          "7": 7, 
-          "8": 8, 
-          "9": 9, 
-          "10": 10, 
-          "J": 10, 
-          "Q": 10, 
-          "K": 10, 
-          "A": 11
-          }
     
         self.cards = []
         self.create_deck()
   
     def __str__(self):
-        return "\n".join([str(card) for card in self.cards])
+        return self.get_deck_with_columns_str()
+
+    def get_deck_with_columns_str(self):
+        rows = len(self.cards) // self.print_columns
+        column_len = len(self.cards) // self.print_columns
+        card_str = ""
+        for row in range(rows):
+            for column in range(self.print_columns):
+                card_str += str(self.cards[row + column * column_len]) + " "
+            card_str += "\n"
+
+        return card_str
 
     def create_deck(self):
         for suit in self.suits:
