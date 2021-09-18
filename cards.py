@@ -1,3 +1,4 @@
+import math
 import random
 
 
@@ -30,14 +31,9 @@ class Deck:
         return self.get_deck_with_columns_str()
 
     def get_deck_with_columns_str(self):
-        rows = len(self.cards) // self.print_columns
-        column_len = len(self.cards) // self.print_columns
         card_str = ""
-        for row in range(rows):
-            for column in range(self.print_columns):
-                card_str += str(self.cards[row + column * column_len]) + " "
-            card_str += "\n"
-
+        for i, card in enumerate(self.cards):
+            card_str += str(card) + ("\n" if (i + 1) % self.print_columns == 0 else " ")
         return card_str
 
     def create_deck(self):

@@ -4,4 +4,8 @@ from player import Player
 
 p = Player(Deck(), 1000)
 
-print(p.deck, p.hand, p.money)
+p.deck.shuffle()
+p.draw_card()
+
+
+print(p.deck, [str(card) for card in p.hand], p.money, sep="\n")
