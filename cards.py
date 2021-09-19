@@ -87,7 +87,7 @@ class ClassicDeck(EmptyDeck):
         for _ in range(decks):
             for suit in self.suits:
                 for symbol, value in self.symbols_and_values.items():
-                    if symbol != 'A':
+                    if symbol == 'A':
                         self.cards.append(Ace(suit, symbol, value))
                     else:
                         self.cards.append(Card(suit, symbol, value))

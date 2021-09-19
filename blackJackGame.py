@@ -139,33 +139,50 @@ class BlackJackGame:
                 self.print_table()
                 self.player.fill_balance(int(self.player.bet_size * 2.5))
                 print(f"You got a Blackjack! You won {int(self.player.bet_size * 1.5)}! Your new balance is {self.player.balance}")
-                # input("(Enter any key to continue) ")
+                input("(Enter any key to start a new game) ")
                 continue
 
+            # Player's moves
+            inp = ""
             while True:
-                self.print_table()
                 """ ONE HAND ONLY """
                 if self.calc_hand_value(self.player.hands[0]) > 21:
-                    print("You bussed")
-                    break
+                    for card in self.player.hands[0].cards:
+                        if card.value == 11:
+                            card.update_value()
+                            print(card, card.value)
+                            break
+                    else:
+                        self.print_table()
+                        print("You bussed")
+                        input("(Enter any key to start a new game) ")
+                        break
+
+                self.print_table()
 
                 inp = input("> ").strip().lower()
                 if inp == "s":
-                    self.dealers_hand.cards[0].flip_face()
-                    self.print_table()
-                    if self.calc_hand_value(self.player.hands[0]) > self.calc_hand_value(self.dealers_hand):
-                        print("You won!")
-                        self.player.fill_balance(int(self.player.bet_size * 2))
-                    elif self.calc_hand_value(self.player.hands[0]) == self.calc_hand_value(self.dealers_hand):
-                        print("Push")
-                        self.player.fill_balance(self.player.bet_size)
-                        break
-                    else:
-                        print("You lost")
-                        break
-                    # input("(Enter any key to continue) ")
+                    break
+                elif inp == "h":
+                    self.player.hands[0].add_card(self.deck.draw_card())
 
-                break
+            # self.dealers_hand.cards[0].flip_face()
+            # self.print_table()
+            #
+            # if self.calc_hand_value(self.player.hands[0]) > self.calc_hand_value(self.dealers_hand):
+            #     print("You won!")
+            #     self.player.fill_balance(int(self.player.bet_size * 2))
+            # elif self.calc_hand_value(self.player.hands[0]) == self.calc_hand_value(self.dealers_hand):
+            #     print("Push")
+            #     self.player.fill_balance(self.player.bet_size)
+            # else:
+            #     print("You lost")
+            #
+            # input("(Enter any key to start a new game) ")
+
+            # Dealer's moves
+            # while self.calc_hand_value(self.dealers_hand) < 18:
+            #     pass
 
             # Bet
             # print("Balance:", self.balance)
