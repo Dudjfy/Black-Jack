@@ -6,11 +6,17 @@ class BlackJackGame:
     deck: ClassicDeck
     dealers_hand: EmptyDeck
 
-    def __init__(self, player: Player, decks: int = 4, show_total_values: bool = False):
+    def __init__(self,
+                 player: Player,
+                 decks: int = 4,
+                 show_total_values: bool = False,
+                 min_bet: int = 10):
+
         self.decks = decks
         self.player = player
         self.game_on = False
         self.show_total_values = show_total_values
+        self.min_bet = min_bet
 
         self.player_moves = {
             "s": self.player_stand,
@@ -56,7 +62,7 @@ class BlackJackGame:
     def print_table(self, bet: int):
         width = 60
 
-        print()
+        print("-" * width)
         print("Dealer's Hand".center(width))
         print((str(self.dealers_hand) + self.get_hand_value_str(self.dealers_hand)).center(width))
         print()
@@ -68,18 +74,30 @@ class BlackJackGame:
         for hand in self.player.hands:
             print((str(hand) + self.get_hand_value_str(hand)).center(width))
         print(("Balance: " + str(self.player.balance)).center(width))
-        print()
+        print("-" * width)
 
     def check_values(self):
         pass
 
+    def set_bet_size(self):
+        while True:
+            print("Balance:", self.player.balance)
+            inp = input(f"Set bet size (Min: {self.min_bet}): ")
+            self.player.bet_size = int(inp)
+            if self.player.bet(self.player.bet_size) <= 0:
+                print("Can't bet that. Enter a right amount.")
+                continue
+            break
+
     def game_loop(self):
         self.game_on = True
+
+        self.set_bet_size()
 
         while self.game_on:
             self.reset_decks()
 
-            self.print_table(100)
+            self.print_table(self.player.bet_size)
             inp = input("> ")
 
             # Bet

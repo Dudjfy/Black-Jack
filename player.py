@@ -5,6 +5,7 @@ class Player:
     def __init__(self, balance: int):
         self.hands = [EmptyDeck()]
         self.balance = balance
+        self.bet_size = 0
 
     def draw_cards(self, draw_amount: int = 1):
         for _ in range(draw_amount):
