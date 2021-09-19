@@ -36,6 +36,11 @@ class BlackJackGame:
         self.dealers_hand = EmptyDeck()
         self.player.hands = [EmptyDeck()]
 
+        # d = EmptyDeck()
+        # d.add_card(self.deck.draw_card())
+        # d.add_card(self.deck.draw_card())
+        # self.player.hands = [d, d]
+
     def do_first_round(self):
         for _ in range(2):
             self.player_hand.add_card(self.deck.draw_card())
@@ -59,7 +64,7 @@ class BlackJackGame:
         print(("Bet: " + str(bet)).center(width))
         print()
         print()
-        print("Your Hand".center(width))
+        print(("Your Hand" + ("s" if len(self.player.hands) > 1 else "")).center(width))
         for hand in self.player.hands:
             print((str(hand) + self.get_hand_value_str(hand)).center(width))
         print(("Balance: " + str(self.player.balance)).center(width))
