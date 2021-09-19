@@ -161,6 +161,7 @@ class BlackJackGame:
                 #     self.player.hands[0].add_card(self.deck.draw_card())
                 #     break
 
+            # Check if player busts
             if self.calc_hand_value(self.player.hands[0]) > 21:
                 self.print_table()
                 print("You bussed")
@@ -171,7 +172,6 @@ class BlackJackGame:
             self.dealers_hand.cards[0].flip_face()
             self.print_table()
             while self.calc_hand_value(self.dealers_hand) < 17:
-
 
                 """ Soft 17 """
                 # exit = False
@@ -189,23 +189,19 @@ class BlackJackGame:
 
                 self.dealers_hand.add_card(self.deck.draw_card())
                 self.print_table()
-            # input("> ")
 
+            # Comparing Dealer's and Player's hands
+            if self.calc_hand_value(self.dealers_hand) > 21 or \
+                    self.calc_hand_value(self.player.hands[0]) > self.calc_hand_value(self.dealers_hand):
+                print("You won!")
+                self.player.fill_balance(int(self.player.bet_size * 2))
+            elif self.calc_hand_value(self.player.hands[0]) == self.calc_hand_value(self.dealers_hand):
+                print("Push")
+                self.player.fill_balance(self.player.bet_size)
+            else:
+                print("You lost")
 
-
-            # self.dealers_hand.cards[0].flip_face()
-            # self.print_table()
-            #
-            # if self.calc_hand_value(self.player.hands[0]) > self.calc_hand_value(self.dealers_hand):
-            #     print("You won!")
-            #     self.player.fill_balance(int(self.player.bet_size * 2))
-            # elif self.calc_hand_value(self.player.hands[0]) == self.calc_hand_value(self.dealers_hand):
-            #     print("Push")
-            #     self.player.fill_balance(self.player.bet_size)
-            # else:
-            #     print("You lost")
-            #
-            # input("(Enter any key to start a new game) ")
+            input("(Enter any key to start a new game) ")
 
 
 
