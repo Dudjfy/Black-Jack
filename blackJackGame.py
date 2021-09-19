@@ -49,7 +49,8 @@ class BlackJackGame:
 
     def do_first_round(self):
         for _ in range(2):
-            self.player_hand.add_card(self.deck.draw_card())
+            for hand in self.player.hands:
+                hand.add_card(self.deck.draw_card())
             self.dealers_hand.add_card(self.deck.draw_card())
         self.dealers_hand.cards[0].flip_face()
 
@@ -117,6 +118,7 @@ class BlackJackGame:
 
         while self.game_on:
             self.reset_decks()
+            self.do_first_round()
             if not self.bet():
                 break
 
