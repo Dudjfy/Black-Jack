@@ -14,7 +14,7 @@ class Player:
     def fill_balance(self, amount: int):
         self.balance += amount
 
-    def bet(self, bet: int):
+    def get_bet(self, bet: int):
         if self.balance - bet >= 0:
             self.balance -= bet
             return bet

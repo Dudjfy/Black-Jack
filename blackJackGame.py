@@ -82,19 +82,22 @@ class BlackJackGame:
     def set_bet_size(self):
         while True:
             print("Balance:", self.player.balance)
-            inp = input(f"Set bet size (Min: {self.min_bet}): ")
+            inp = input(f"Set bet size (Min: {self.min_bet}): ").strip()
             if not inp.isdigit():
                 print("Wrong value. Please try again.")
                 print()
                 continue
 
             self.player.bet_size = abs(int(inp))
-            if self.player.bet(self.player.bet_size) <= 0:
+            if self.player.get_bet(self.player.bet_size) <= 0:
                 print("Wrong value. Please try again.")
                 print()
                 continue
             self.player.fill_balance(self.player.bet_size)
             break
+
+    def check_betting(self):
+        pass
 
     def game_loop(self):
         self.game_on = True
@@ -103,10 +106,14 @@ class BlackJackGame:
 
         while self.game_on:
             self.reset_decks()
-            bet = self.player.bet(self.player.bet_size)
-            print(bet)
-            if bet <= 0:
-                print("Balance is too low, can't play anymore.")
+            if self.player.get_bet(self.player.bet_size) <= 0:
+                if self.player.balance > self.min_bet:
+                    inp = input("Balance's too low. Want to change bet size? ").strip().lower()
+                    if inp in ["y", "ye", "yes", "j", "ja"]:
+                        self.set_bet_size()
+                        continue
+                else:
+                    print("Balance's too low. Can't play anymore.")
                 break
 
             self.print_table()
