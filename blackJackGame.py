@@ -1,4 +1,4 @@
-from cards import ClassicDeck, EmptyDeck
+from cards import ClassicDeck, EmptyDeck, Card, Ace
 from player import Player
 
 
@@ -51,7 +51,13 @@ class BlackJackGame:
         for _ in range(2):
             for hand in self.player.hands:
                 hand.add_card(self.deck.draw_card())
+                pass
             self.dealers_hand.add_card(self.deck.draw_card())
+
+        # """ ONE HAND ONLY """
+        # self.player.hands[0].add_card(Card("♣", "10", 10))
+        # self.player.hands[0].add_card(Ace("♣", "A", 11))
+
         self.dealers_hand.cards[0].flip_face()
 
     def calc_hand_value(self, hand: EmptyDeck):
@@ -77,9 +83,6 @@ class BlackJackGame:
         print(("Balance: " + str(self.player.balance)).center(width))
         print("-" * width)
 
-    def check_values(self):
-        pass
-
     def set_bet_size(self):
         while True:
             print("Balance:", self.player.balance)
@@ -101,15 +104,21 @@ class BlackJackGame:
         bet = self.player.get_bet(self.player.bet_size)
         if bet <= 0:
             if self.player.balance > self.min_bet:
+                print("Balance:", self.player.balance, "- Bet size:", self.player.bet_size)
                 inp = input("Balance's too low. Want to change bet size? ").strip().lower()
-                if inp in ["y", "ye", "yes", "j", "ja"]:
+                print()
+                if inp in ["y", "ye", "yes"]:
                     self.set_bet_size()
                     self.player.get_bet(self.player.bet_size)
-                    return True
+                else:
+                    print("Balance's too low. Can't play anymore.")
+                    self.game_on = False
             else:
                 print("Balance's too low. Can't play anymore.")
-            return False
-        return True
+                self.game_on = False
+
+    def check_hand_values(self):
+        pass
 
     def game_loop(self):
         self.game_on = True
@@ -117,13 +126,42 @@ class BlackJackGame:
         self.set_bet_size()
 
         while self.game_on:
-            self.reset_decks()
-            self.do_first_round()
-            if not self.bet():
+            self.bet()
+            if not self.game_on:
                 break
 
-            self.print_table()
-            inp = input("> ")
+            self.reset_decks()
+            self.do_first_round()
+
+            """ ONE HAND ONLY """
+            # check for black jack
+            if self.calc_hand_value(self.player.hands[0]) == 21:
+                self.print_table()
+                self.player.fill_balance(self.player.bet_size + int(self.player.bet_size * 1.5))
+                print(f"You got a Blackjack! You won {int(self.player.bet_size * 1.5)}! Your new balance is {self.player.balance}")
+                input("(Enter any key to continue) ")
+                continue
+
+            # while True:
+            #     self.print_table()
+            #     """ ONE HAND ONLY """
+            #     if self.calc_hand_value(self.player.hands[0]) > 21:
+            #         print("You bussed")
+            #         break
+            #
+            #     inp = input("> ").strip().lower()
+            #     if inp == "s":
+            #         self.dealers_hand.cards[0].flip_face()
+            #         self.print_table()
+            #         if self.calc_hand_value(self.player.hands[0]) > self.calc_hand_value(self.dealers_hand):
+            #             pass
+            #         elif self.calc_hand_value(self.player.hands[0]) == self.calc_hand_value(self.dealers_hand):
+            #             if
+            #         else:
+            #             print("You bussed")
+            #             break
+            #
+            #     break
 
             # Bet
             # print("Balance:", self.balance)
