@@ -48,7 +48,7 @@ class EmptyDeck:
         "A": 11
     }
 
-    def __init__(self, print_columns: int = 4):
+    def __init__(self, print_columns: int = 8):
         self.print_columns = print_columns
         self.cards_in_deck = 52
         self.cards = []
@@ -77,7 +77,7 @@ class EmptyDeck:
 
 
 class ClassicDeck(EmptyDeck):
-    def __init__(self, print_columns: int = 4, decks: int = 1):
+    def __init__(self, print_columns: int = 8, decks: int = 1):
         super().__init__(print_columns)
         self.decks = decks
 

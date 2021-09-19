@@ -1,14 +1,14 @@
 from cards import ClassicDeck, EmptyDeck
+from player import Player
 
 
 class BlackJackGame:
     deck: ClassicDeck
     dealers_hand: EmptyDeck
-    player_hand: EmptyDeck
 
-    def __init__(self, balance: int, decks: int = 4, show_total_values: bool = False):
+    def __init__(self, player: Player, decks: int = 4, show_total_values: bool = False):
         self.decks = decks
-        self.balance = balance
+        self.player = player
         self.game_on = False
         self.show_total_values = show_total_values
 
@@ -16,6 +16,8 @@ class BlackJackGame:
             "s": self.player_stand,
             "h": self.player_hit,
             "d": self.player_double,
+            "sp": self.player_stand,
+            "sur": self.player_stand,
         }
 
     def player_stand(self):
@@ -25,14 +27,14 @@ class BlackJackGame:
         self.player_hand.add_card(self.deck.draw_card())
 
     def player_double(self):
-        pass
+        self.player_hit()
 
     def reset_decks(self):
-        self.deck = ClassicDeck(self.decks)
+        self.deck = ClassicDeck(decks=self.decks)
         self.deck.shuffle()
 
         self.dealers_hand = EmptyDeck()
-        self.player_hand = EmptyDeck()
+        self.player.hands = [EmptyDeck()]
 
     def do_first_round(self):
         for _ in range(2):
@@ -58,9 +60,13 @@ class BlackJackGame:
         print()
         print()
         print("Your Hand".center(width))
-        print((str(self.player_hand) + self.get_hand_value_str(self.player_hand)).center(width))
-        print(("Balance: " + str(self.balance)).center(width))
+        for hand in self.player.hands:
+            print((str(hand) + self.get_hand_value_str(hand)).center(width))
+        print(("Balance: " + str(self.player.balance)).center(width))
         print()
+
+    def check_values(self):
+        pass
 
     def game_loop(self):
         self.game_on = True
@@ -68,18 +74,29 @@ class BlackJackGame:
         while self.game_on:
             self.reset_decks()
 
+            self.print_table(100)
+            inp = input("> ")
+
             # Bet
-            bet = int(input("Bet: "))
-            if self.balance - bet < 0:
-                print("Can't bet that much!")
-                continue
-            self.balance -= bet
-
-            self.do_first_round()
-            self.print_table(bet)
-            inp = input('> ').strip().lower()
-            self.player_moves.get(inp, self.player_stand)()
-
-            # self.dealers_hand.cards[0].flip_face()
+            # print("Balance:", self.balance)
+            # bet = int(input("Bet: "))
+            # if self.balance - bet < 0:
+            #     print("Can't bet that much!")
+            #     continue
+            # self.balance -= bet
+            #
+            # self.do_first_round()
             # self.print_table(bet)
+            # inp = input('> ').strip().lower()
+            # self.player_moves.get(inp, self.player_stand)()
+            #
+            # if inp == "s":
+            #     self.dealers_hand.cards[0].flip_face()
+            #     if self.calc_hand_value(self.player_hand) > 21:
+            #         continue
+            #
+            #
+            #     # self.print_table(bet)
+            #
+            #
             # inp = input('> ')

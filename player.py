@@ -2,10 +2,9 @@ from cards import ClassicDeck, EmptyDeck
 
 
 class Player:
-    def __init__(self, deck: ClassicDeck, money: int):
-        self.deck = deck
-        self.hand = EmptyDeck()
-        self.money = money
+    def __init__(self, balance: int):
+        self.hands = [EmptyDeck()]
+        self.balance = balance
 
     def draw_cards(self, draw_amount: int = 1):
         for _ in range(draw_amount):
@@ -13,3 +12,9 @@ class Player:
 
     def print_hand(self):
         pass
+
+    def bet(self, bet: int):
+        if self.balance - bet >= 0:
+            self.balance -= bet
+            return bet
+        return 0

@@ -1,5 +1,7 @@
 from blackJackGame import BlackJackGame
+from player import Player
 
-bj = BlackJackGame(1000, show_total_values=True)
+p = Player(1000)
+bj = BlackJackGame(p, show_total_values=True)
 
 bj.game_loop()
