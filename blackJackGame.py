@@ -18,22 +18,13 @@ class BlackJackGame:
         self.show_total_values = show_total_values
         self.min_bet = min_bet
 
-        self.player_moves = {
-            "s": self.player_stand,
-            "h": self.player_hit,
-            "d": self.player_double,
-            "sp": self.player_stand,
-            "sur": self.player_stand,
-        }
-
-    def player_stand(self):
-        pass
-
-    def player_hit(self):
-        self.player_hand.add_card(self.deck.draw_card())
-
-    def player_double(self):
-        self.player_hit()
+        # self.player_moves = {
+        #     "s": self.player_stand,
+        #     "h": self.player_hit,
+        #     "d": self.player_double,
+        #     "sp": self.player_stand,
+        #     "sur": self.player_stand,
+        # }
 
     def reset_decks(self):
         self.deck = ClassicDeck(decks=self.decks)
@@ -117,9 +108,6 @@ class BlackJackGame:
                 print("Balance's too low. Can't play anymore.")
                 self.game_on = False
 
-    def check_hand_values(self):
-        pass
-
     def game_loop(self):
         self.game_on = True
 
@@ -134,11 +122,18 @@ class BlackJackGame:
             self.do_first_round()
 
             """ ONE HAND ONLY """
-            # check for black jack
+            # check for blackjack
             if self.calc_hand_value(self.player.hands[0]) == 21:
+                self.dealers_hand.cards[0].flip_face()
                 self.print_table()
-                self.player.fill_balance(int(self.player.bet_size * 2.5))
-                print(f"You got a Blackjack! You won {int(self.player.bet_size * 1.5)}! Your new balance is {self.player.balance}")
+                if self.calc_hand_value(self.dealers_hand) != 21:
+                    self.player.fill_balance(int(self.player.bet_size * 2.5))
+                    print(f"You got a Blackjack! You won {int(self.player.bet_size * 1.5)}! Your new balance is {self.player.balance}")
+                    # input("(Enter any key to start a new game) ")
+                else:
+                    self.player.fill_balance(self.player.bet_size)
+                    print("Push")
+                    # input("(Enter any key to start a new game) ")
                 input("(Enter any key to start a new game) ")
                 continue
 
@@ -146,16 +141,13 @@ class BlackJackGame:
             inp = ""
             while True:
                 """ ONE HAND ONLY """
+                # Temp solution
                 if self.calc_hand_value(self.player.hands[0]) > 21:
                     for card in self.player.hands[0].cards:
                         if card.value == 11:
                             card.update_value()
-                            print(card, card.value)
                             break
                     else:
-                        self.print_table()
-                        print("You bussed")
-                        input("(Enter any key to start a new game) ")
                         break
 
                 self.print_table()
@@ -165,6 +157,41 @@ class BlackJackGame:
                     break
                 elif inp == "h":
                     self.player.hands[0].add_card(self.deck.draw_card())
+                # elif inp == "d":
+                #     self.player.hands[0].add_card(self.deck.draw_card())
+                #     break
+
+            if self.calc_hand_value(self.player.hands[0]) > 21:
+                self.print_table()
+                print("You bussed")
+                input("(Enter any key to start a new game) ")
+                continue
+
+            # Dealer's moves
+            self.dealers_hand.cards[0].flip_face()
+            self.print_table()
+            while self.calc_hand_value(self.dealers_hand) < 17:
+
+
+                """ Soft 17 """
+                # exit = False
+                #
+                # if self.calc_hand_value(self.dealers_hand) == 17:
+                #     exit = True
+                #     for card in self.player.hands[0].cards:
+                #         if card.value == 11:
+                #             card.update_value()
+                #             exit = False
+                #             break
+                #
+                # if exit:
+                #     break
+
+                self.dealers_hand.add_card(self.deck.draw_card())
+                self.print_table()
+            # input("> ")
+
+
 
             # self.dealers_hand.cards[0].flip_face()
             # self.print_table()
@@ -180,9 +207,7 @@ class BlackJackGame:
             #
             # input("(Enter any key to start a new game) ")
 
-            # Dealer's moves
-            # while self.calc_hand_value(self.dealers_hand) < 18:
-            #     pass
+
 
             # Bet
             # print("Balance:", self.balance)
