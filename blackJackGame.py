@@ -59,7 +59,7 @@ class BlackJackGame:
     def get_hand_value_str(self, hand: EmptyDeck):
         return f"({self.calc_hand_value(hand)})" if self.show_total_values else ""
 
-    def print_table(self, bet: int):
+    def print_table(self):
         width = 60
 
         print("-" * width)
@@ -67,7 +67,7 @@ class BlackJackGame:
         print((str(self.dealers_hand) + self.get_hand_value_str(self.dealers_hand)).center(width))
         print()
         print()
-        print(("Bet: " + str(bet)).center(width))
+        print(("Bet: " + str(self.player.bet_size)).center(width))
         print()
         print()
         print(("Your Hand" + ("s" if len(self.player.hands) > 1 else "")).center(width))
@@ -83,10 +83,17 @@ class BlackJackGame:
         while True:
             print("Balance:", self.player.balance)
             inp = input(f"Set bet size (Min: {self.min_bet}): ")
-            self.player.bet_size = int(inp)
-            if self.player.bet(self.player.bet_size) <= 0:
-                print("Can't bet that. Enter a right amount.")
+            if not inp.isdigit():
+                print("Wrong value. Please try again.")
+                print()
                 continue
+
+            self.player.bet_size = abs(int(inp))
+            if self.player.bet(self.player.bet_size) <= 0:
+                print("Wrong value. Please try again.")
+                print()
+                continue
+            self.player.fill_balance(self.player.bet_size)
             break
 
     def game_loop(self):
@@ -96,8 +103,13 @@ class BlackJackGame:
 
         while self.game_on:
             self.reset_decks()
+            bet = self.player.bet(self.player.bet_size)
+            print(bet)
+            if bet <= 0:
+                print("Balance is too low, can't play anymore.")
+                break
 
-            self.print_table(self.player.bet_size)
+            self.print_table()
             inp = input("> ")
 
             # Bet

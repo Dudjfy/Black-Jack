@@ -11,8 +11,8 @@ class Player:
         for _ in range(draw_amount):
             self.hand.add_card(self.deck.draw_card())
 
-    def print_hand(self):
-        pass
+    def fill_balance(self, amount: int):
+        self.balance += amount
 
     def bet(self, bet: int):
         if self.balance - bet >= 0:
