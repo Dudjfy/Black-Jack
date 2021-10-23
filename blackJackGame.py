@@ -18,6 +18,7 @@ class BlackJackGame:
         self.show_total_values = show_total_values
         self.min_bet = min_bet
         self.bet = 0
+        self.shuffle_at = 0.75
 
         # self.player_moves = {
         #     "s": self.player_stand,
@@ -28,8 +29,9 @@ class BlackJackGame:
         # }
 
     def reset_decks(self):
-        self.deck = ClassicDeck(decks=self.decks)
-        self.deck.shuffle()
+        if len(self.deck.cards) / (self.decks * ClassicDeck().cards_in_deck) <= self.shuffle_at:
+            self.deck = ClassicDeck(decks=self.decks)
+            self.deck.shuffle()
 
         self.dealers_hand = EmptyDeck()
         self.player.hands = [EmptyDeck()]
@@ -115,6 +117,8 @@ class BlackJackGame:
         self.game_on = True
 
         self.set_bet_size()
+        self.deck = ClassicDeck(decks=self.decks)
+        self.deck.shuffle()
 
         while self.game_on:
             self.bet_checking_balance()
