@@ -143,6 +143,7 @@ class BlackJackGame:
 
             # Player's moves
             inp = ""
+            surrendered = False
             while True:
                 """ ONE HAND ONLY """
                 # Temp solution
@@ -178,6 +179,14 @@ class BlackJackGame:
                     else:
                         self.player.get_bet(self.player.bet_size)
                         print("Can't double down, balance too low")
+                elif inp == "sur":
+                    self.player.fill_balance(self.bet // 2)
+                    print("You surrendered! Half of your bet was returned.")
+                    surrendered = True
+                    break
+
+            if surrendered:
+                continue
 
             # Check if player busts
             if self.calc_hand_value(self.player.hands[0]) > 21:
@@ -218,27 +227,3 @@ class BlackJackGame:
                 print("You lost")
 
             input("(Enter any key to start a new game) ")
-
-            # Bet
-            # print("Balance:", self.balance)
-            # bet = int(input("Bet: "))
-            # if self.balance - bet < 0:
-            #     print("Can't bet that much!")
-            #     continue
-            # self.balance -= bet
-            #
-            # self.do_first_round()
-            # self.print_table(bet)
-            # inp = input('> ').strip().lower()
-            # self.player_moves.get(inp, self.player_stand)()
-            #
-            # if inp == "s":
-            #     self.dealers_hand.cards[0].flip_face()
-            #     if self.calc_hand_value(self.player_hand) > 21:
-            #         continue
-            #
-            #
-            #     # self.print_table(bet)
-            #
-            #
-            # inp = input('> ')
