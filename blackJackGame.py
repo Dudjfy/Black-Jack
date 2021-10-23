@@ -47,8 +47,10 @@ class BlackJackGame:
             self.dealers_hand.add_card(self.deck.draw_card())
 
         # """ ONE HAND ONLY """
-        # self.player.hands[0].add_card(Card("♣", "10", 10))
+        # self.player.hands[0].add_card(Card("♣", "2", 2))
         # self.player.hands[0].add_card(Ace("♣", "A", 11))
+        # self.dealers_hand.add_card(Card("♣", "6", 6))
+        # self.dealers_hand.add_card(Ace("♣", "A", 11))
 
         self.dealers_hand.cards[0].flip_face()
 
@@ -169,7 +171,6 @@ class BlackJackGame:
                             for card in self.player.hands[0].cards:
                                 if card.value == 11:
                                     card.update_value()
-                                    break
                             else:
                                 break
                         else:
@@ -188,30 +189,18 @@ class BlackJackGame:
             # Dealer's moves
             self.dealers_hand.cards[0].flip_face()
             self.print_table()
-            while True:
+            while self.calc_hand_value(self.dealers_hand) < 17:
 
-                """ Soft 17 """
-
-                # Temp solution
-                if self.calc_hand_value(self.dealers_hand) >= 17:
-                    for card in self.dealers_hand.cards:
-                        if card.value == 11:
-                            card.update_value()
-                            break
-                    else:
-                        break
-
-                # exit = False
+                # """ Soft 17 """
                 #
                 # if self.calc_hand_value(self.dealers_hand) == 17:
-                #     exit = True
-                #     for card in self.player.hands[0].cards:
+                #     for card in self.dealers_hand.cards:
                 #         if card.value == 11:
                 #             card.update_value()
-                #             exit = False
                 #             break
-                #
-                # if exit:
+                #     else:
+                #         break
+                # elif self.calc_hand_value(self.dealers_hand) > 17:
                 #     break
 
                 self.dealers_hand.add_card(self.deck.draw_card())
