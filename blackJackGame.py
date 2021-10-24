@@ -1,6 +1,7 @@
 from cards import ClassicDeck, EmptyDeck, Card, Ace
 from player import Player
 
+
 # The game class
 class BlackJackGame:
     deck: ClassicDeck
@@ -222,7 +223,6 @@ class BlackJackGame:
                     self.print_help_codes()
 
             # Restarts the game if player surrenders
-
             if surrendered:
                 continue
 
