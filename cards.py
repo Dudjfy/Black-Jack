@@ -20,10 +20,11 @@ class Card:
 
     # Updates value, abstract for normal cards
     def update_ace_value(self):
-        if self.value == 11:
-            self.value = 1
-        else:
-            self.value = 11
+        if self.symbol == "A":
+            if self.value == 11:
+                self.value = 1
+            else:
+                self.value = 11
 
 
 # Empty Deck class, with suits and symbol-value pairs for creating new decks
