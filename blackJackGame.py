@@ -113,6 +113,7 @@ class BlackJackGame:
                 print("Balance's too low. Can't play anymore.")
                 self.game_on = False
 
+    # Prints codes for player decisions during the game
     def print_help_codes(self):
         print()
         print("Here are codes for player decisions:")
@@ -124,6 +125,7 @@ class BlackJackGame:
         print("help - Prompts to this (codes) help page")
         print()
 
+    # Prints rules for current blackjack game
     def print_help_rules(self):
         print()
         print("The goal of the game is to beat the dealer. Cards have values, the closest to 21 wins.")
