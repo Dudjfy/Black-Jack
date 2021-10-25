@@ -19,17 +19,7 @@ class Card:
         self.face_up = not self.face_up
 
     # Updates value, abstract for normal cards
-    def update_value(self):
-        pass
-
-
-# Special Ace class, a subclass of Card, in much the same as Card
-class Ace(Card):
-    def __init__(self, suit: str, symbol: str, value: int):
-        super().__init__(suit, symbol, value)
-
-    # Updates value from 11 to 1 and vice versa
-    def update_value(self):
+    def update_ace_value(self):
         if self.value == 11:
             self.value = 1
         else:
@@ -101,7 +91,4 @@ class ClassicDeck(EmptyDeck):
         for _ in range(self.decks):
             for suit in self.suits:
                 for symbol, value in self.symbols_and_values.items():
-                    if symbol == 'A':
-                        self.cards.append(Ace(suit, symbol, value))
-                    else:
-                        self.cards.append(Card(suit, symbol, value))
+                    self.cards.append(Card(suit, symbol, value))

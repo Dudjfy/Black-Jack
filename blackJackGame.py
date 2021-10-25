@@ -1,4 +1,4 @@
-from cards import ClassicDeck, EmptyDeck, Card, Ace
+from cards import ClassicDeck, EmptyDeck, Card
 from player import Player
 
 
@@ -46,9 +46,9 @@ class BlackJackGame:
 
         # """ ONE HAND ONLY """
         # self.player.hands[0].add_card(Card("♣", "2", 2))
-        # self.player.hands[0].add_card(Ace("♣", "A", 11))
+        # self.player.hands[0].add_card(Card("♣", "A", 11))
         # self.dealers_hand.add_card(Card("♣", "6", 6))
-        # self.dealers_hand.add_card(Ace("♣", "A", 11))
+        # self.dealers_hand.add_card(Card("♣", "A", 11))
 
         self.dealers_hand.cards[0].flip_face()
 
@@ -184,7 +184,7 @@ class BlackJackGame:
                 if self.calc_hand_value(self.player.hands[0]) > 21:
                     for card in self.player.hands[0].cards:
                         if card.value == 11:
-                            card.update_value()
+                            card.update_ace_value()
                             break
                     else:
                         break
@@ -207,7 +207,7 @@ class BlackJackGame:
                         if self.calc_hand_value(self.player.hands[0]) > 21:
                             for card in self.player.hands[0].cards:
                                 if card.value == 11:
-                                    card.update_value()
+                                    card.update_ace_value()
                             else:
                                 break
                         else:
@@ -247,7 +247,7 @@ class BlackJackGame:
                 # if self.calc_hand_value(self.dealers_hand) == 17:
                 #     for card in self.dealers_hand.cards:
                 #         if card.value == 11:
-                #             card.update_value()
+                #             card.update_ace_value()
                 #             break
                 #     else:
                 #         break
