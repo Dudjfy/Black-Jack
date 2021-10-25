@@ -127,7 +127,8 @@ class BlackJackGame:
     def print_help_rules(self):
         print()
         print("The goal of the game is to beat the dealer. Cards have values, the closest to 21 wins.")
-        print("If dealer and the player gets the same values for their cards, thes game pushes to the next round.")
+        print("If dealer and the player gets the same values for their cards, the game pushes to the next round.")
+        print("Dealer must follow a strict set of rules, in this case always hit until 16 and stay on all 17's.")
         print("The values for the numbered cards are the same as the numbers themselves.")
         print("For all cards with pictures, the value is 10. For ace it's 11 or 1, player decides what suits best.")
         print("If the player gets an ace and any card valued 10 it's considered a blackjack, payout 3:2.")
