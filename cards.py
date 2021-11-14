@@ -18,7 +18,7 @@ class Card:
     def flip_face(self):
         self.face_up = not self.face_up
 
-    # Updates value, abstract for normal cards
+    # Updates ace value
     def update_ace_value(self):
         if self.symbol == "A":
             if self.value == 11:
