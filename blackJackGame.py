@@ -52,9 +52,18 @@ class BlackJackGame:
 
         self.dealers_hand.cards[0].flip_face()
 
+    def get_faced_up_cards(self, hand: EmptyDeck):
+        return [card for card in hand.cards if card.face_up]
+
     # Calculates and returns a hand's total value
     def calc_hand_value(self, hand: EmptyDeck):
-        return sum([card.value for card in hand.cards if card.face_up])
+        return sum(self.get_faced_up_cards(hand))
+
+    def calc_hand_value_lowest(self, hand: EmptyDeck):
+        return sum([1 if card.symbol == "A" else card.value for card in self.get_faced_up_cards(hand)])
+
+    def calc_hand_value_highest(self, hand: EmptyDeck):
+        return sum([11 if card.symbol == "A" else card.value for card in self.get_faced_up_cards(hand)])
 
     # Converts the calculated value to a string and returns it
     def get_hand_value_str(self, hand: EmptyDeck):
