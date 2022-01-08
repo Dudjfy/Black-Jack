@@ -2,8 +2,11 @@ from cards import ClassicDeck, EmptyDeck, Card
 from player import Player
 
 
-# The game class
 class BlackJackGame:
+    """
+    The game class
+    """
+
     deck: ClassicDeck
     dealers_hand: EmptyDeck
 
@@ -22,8 +25,11 @@ class BlackJackGame:
         self.shuffle_at = 0.75
         self.table_width = 60
 
-    # Resets decks, some code is commented for testing purposes
     def reset_decks(self):
+        """
+        Resets decks, some code is commented for testing purposes
+        """
+
         if len(self.deck.cards) / (self.decks * ClassicDeck().cards_in_deck) <= self.shuffle_at:
             self.deck = ClassicDeck(decks=self.decks)
             self.deck.shuffle()
@@ -36,9 +42,12 @@ class BlackJackGame:
         # d.add_card(self.deck.draw_card())
         # self.player.hands = [d, d]
 
-    # Does the first round, gives 2 cards to the player (2 to each hand for the future)
-    # and 2 for the dealer, one of dealer's cards is faced down
     def do_first_round(self):
+        """
+        Does the first round, gives 2 cards to the player (2 to each hand for the future)
+        and 2 for the dealer, one of dealer's cards is faced down
+        """
+
         for _ in range(2):
             for hand in self.player.hands:
                 hand.add_card(self.deck.draw_card())
@@ -52,16 +61,25 @@ class BlackJackGame:
 
         self.dealers_hand.cards[0].flip_face()
 
-    # Calculates and returns a hand's total value
     def calc_hand_value(self, hand: EmptyDeck):
+        """
+        Calculates and returns a hand's total value
+        """
+
         return sum([card.value for card in hand.cards if card.face_up])
 
-    # Converts the calculated value to a string and returns it
     def get_hand_value_str(self, hand: EmptyDeck):
+        """
+        Converts the calculated value to a string and returns it
+        """
+
         return f"({self.calc_hand_value(hand)})" if self.show_total_values else ""
 
-    # Prints the table
     def print_table(self):
+        """
+        Prints the table
+        """
+
         print("-" * self.table_width)
         print("Dealer's Hand".center(self.table_width))
         print((str(self.dealers_hand) + self.get_hand_value_str(self.dealers_hand)).center(self.table_width))
@@ -76,8 +94,11 @@ class BlackJackGame:
         print(("Balance: " + str(self.player.balance)).center(self.table_width))
         print("-" * self.table_width)
 
-    # Sets the bet size, while loop until the player gives the right amount
     def set_bet_size(self):
+        """
+        Sets the bet size, while loop until the player gives the right amount
+        """
+
         while True:
             print("Balance:", self.player.balance)
             inp = input(f"Set bet size (Min: {self.min_bet}): ").strip()
@@ -94,9 +115,12 @@ class BlackJackGame:
             self.player.fill_balance(self.player.bet_size)
             break
 
-    # Checks if it's possible to make a bet, asks if player wants to lower it when not enough funds,
-    # aborts if not possible to make a bet or player decides it
     def bet_checking_balance(self):
+        """
+        Checks if it's possible to make a bet, asks if player wants to lower it when not enough funds,
+        aborts if not possible to make a bet or player decides it
+        """
+
         self.bet = self.player.get_bet(self.player.bet_size)
         if self.bet <= 0:
             if self.player.balance > self.min_bet:
@@ -113,8 +137,11 @@ class BlackJackGame:
                 print("Balance's too low. Can't play anymore.")
                 self.game_on = False
 
-    # Prints codes for player decisions during the game
     def print_help_codes(self):
+        """
+        Prints codes for player decisions during the game
+        """
+
         print()
         print("Here are codes for player decisions:")
         print("s - Stand: You don't take any more cards and try to beat the dealer with the cards you got so far")
@@ -125,8 +152,11 @@ class BlackJackGame:
         print("help - Prompts to this (codes) help page")
         print()
 
-    # Prints rules for current blackjack game
     def print_help_rules(self):
+        """
+        Prints rules for current blackjack game
+        """
+
         print()
         print("The goal of the game is to beat the dealer. Cards have values, the closest to 21 wins.")
         print("If dealer and the player gets the same values for their cards, the game pushes to the next round.")
@@ -137,8 +167,11 @@ class BlackJackGame:
         print("In all other player won situations player's initial bet is doubled.")
         print()
 
-    # The game loop
     def game_loop(self):
+        """
+        The game loop
+        """
+
         # Sets up a couple things before staring the game
         self.game_on = True
 
