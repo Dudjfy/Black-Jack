@@ -4,22 +4,95 @@ import random
 
 # The card class
 class Card:
-    def __init__(self, suit: str, symbol: str, value: int):
+    """
+    A class to represent a card.
+
+    Attributes
+    ----------
+    suit : str
+        suit of the card
+    symbol : str
+        symbol of the card
+    value : int
+        black jack value of the card
+    face_up: bool
+        boolean value to see if the card is facing up or down
+
+    Methods
+    -------
+    flip_face():
+        Inverts the value of face_up.
+    update_ace_value(additional=""):
+        Updates card values if the card is an Ace (the symbol is an "A").
+    """
+
+    def __init__(self, suit: str, symbol: str, value: int, face_up=True):
+        """
+        Constructs all the necessary attributes for the card object. face_up is true by default.
+
+        Parameters
+        ----------
+            suit : str
+                suit of the card
+            symbol : str
+                symbol of the card
+            value : int
+                black jack value of the card
+        """
+
         self.suit = suit
         self.symbol = symbol
         self.value = value
-        self.face_up = True
+        self.face_up = face_up
 
-    # returns card's symbol and suit if faced up, otherwise returns card faced down
+    # Returns card's symbol and suit if faced up, otherwise returns card faced down
     def __str__(self):
+        """
+        Returns card's symbol and suit.
+
+        If faced_up is true returns symbol and suit, otherwise returns a faced down card.
+
+        Parameters
+        ----------
+            None
+
+        Returns
+        -------
+            (str): String of the suit and symbol if faced up, otherwise a faced down card
+        """
+
         return f"[{self.suit}{self.symbol:>2}]" if self.face_up else "[■■■]"
 
     # Flips cards face
     def flip_face(self):
+        """
+        Inverts the value of face_up.
+
+        Parameters
+        ----------
+            None
+
+        Returns
+        -------
+            None
+        """
+
         self.face_up = not self.face_up
 
     # Updates ace value
     def update_ace_value(self):
+        """
+        Updates card values if the card is an Ace (the symbol is an "A").
+
+        Parameters
+        ----------
+            None
+
+        Returns
+        -------
+            None
+        """
+
         if self.symbol == "A":
             if self.value == 11:
                 self.value = 1
