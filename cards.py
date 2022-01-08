@@ -100,8 +100,11 @@ class Card:
                 self.value = 11
 
 
-# Empty Deck class, with suits and symbol-value pairs for creating new decks
 class EmptyDeck:
+    """
+    Empty Deck class, with suits and symbol-value pairs for creating new decks.
+    """
+
     suits = ["♣", "♦", "♥", "♠"]
     symbols_and_values = {
         "2": 2,
@@ -120,48 +123,125 @@ class EmptyDeck:
     }
 
     def __init__(self, print_columns: int = 8):
+        """
+        Initializes an empty deck
+
+        Parameters
+        ----------
+            print_columns: int
+                Amount of print columns when printing the entire deck
+        """
+
         self.print_columns = print_columns
         self.cards_in_deck = 52
         self.cards = []
 
-    # Returns a string representation of the deck depending on the desired amount of columns
     def __str__(self):
+        """
+        Returns a string representation of the deck depending on the desired amount of columns
+
+        Returns
+        -------
+            (str): A string representation of the deck depending on the desired amount of columns
+        """
+
         return self.get_deck_with_columns_str()
 
-    # Makes the string to return for __str__
     def get_deck_with_columns_str(self):
+        """
+        Makes the string to return for __str__
+
+        Returns
+        -------
+            (str): A string representation of the deck depending on the desired amount of columns
+        """
+
         card_str = ""
         for i, card in enumerate(self.cards):
             card_str += str(card) + ("\n" if (i + 1) % self.print_columns == 0 else " ")
         return card_str
 
-    # Draws a card if len is more than 0, for now may not work if the deck is empty
-    # MAY FAIL RETURN
     def draw_card(self):
+        """
+        Draws a card if len is more than 0, for now may not work if the deck is empty
+
+        Returns
+        -------
+            (str): The first card in the deck list
+        """
+
         if len(self.cards) > 0:
             card = self.cards[0]
             self.cards.pop(0)
             return card
 
-    # Adds cards to the deck
     def add_card(self, card: Card):
+        """
+        Adds cards to the deck
+
+        Parameters
+        ----------
+        card : Card
+
+        Returns
+        -------
+            None
+        """
+
         self.cards.append(card)
 
-    # Shuffles the deck using random
     def shuffle(self):
+        """
+        Shuffles the deck using random
+
+        Parameters
+        ----------
+            None
+
+        Returns
+        -------
+            None
+        """
+
         random.shuffle(self.cards)
 
 
-# A classic deck subclass, creates the deck automatically upon initialization
 class ClassicDeck(EmptyDeck):
+    """
+    A classic deck subclass, creates the deck automatically upon initialization
+    """
+
     def __init__(self, print_columns: int = 8, decks: int = 1):
+        """
+        Initializes an classic deck
+
+        Parameters
+        ----------
+            print_columns: int
+                Amount of print columns when printing the entire deck
+            decks: int
+                Amount of decks
+        """
+
         super().__init__(print_columns)
         self.decks = decks
 
         self.create_deck(self.decks)
 
-    # Creates the deck, with multiple decks at once if specified
     def create_deck(self, decks: int):
+        """
+        Creates the deck, with multiple decks at once if specified
+
+        Parameters
+        ----------
+        decks: int
+            Amount of decks
+
+        Returns
+        -------
+            None
+        """
+
         for _ in range(self.decks):
             for suit in self.suits:
                 for symbol, value in self.symbols_and_values.items():
