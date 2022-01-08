@@ -15,6 +15,9 @@ class BlackJackGame:
                  decks: int = 4,
                  show_total_values: bool = False,
                  min_bet: int = 10):
+        """
+        Initializes the blackjack game
+        """
 
         self.decks = decks
         self.player = player

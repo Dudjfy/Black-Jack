@@ -6,6 +6,10 @@ class Player:
     Player class
     """
     def __init__(self, balance: int):
+        """
+        Initializes the player class
+        """
+
         self.hands = [EmptyDeck()]
         self.balance = balance
         self.bet_size = 0
